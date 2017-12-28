@@ -40,7 +40,7 @@
  * boards may not begin
  * executing this sketch until the Serial console is opened.
  */
-//#define SERIAL_DEBUG
+#define SERIAL_DEBUG
 #include "utility/firmataDebug.h"
 
 // follow the instructions in ethernetConfig.h to configure your particular
@@ -799,8 +799,8 @@ void sysexCallback(byte command, byte argc, byte* argv) {
 void systemResetCallback() {
   isResetting = true;
 
-  // initialize a defalt state
-  // TODO: option to load config from EEPROM instead of default
+// initialize a defalt state
+// TODO: option to load config from EEPROM instead of default
 
 #ifdef FIRMATA_SERIAL_FEATURE
   serialFeature.reset();
@@ -845,6 +845,12 @@ void systemResetCallback() {
   }
   */
   isResetting = false;
+
+  DEBUG_PRINT("MAC address is: ");
+  for (int i = 0; i < 6; i++) {
+    DEBUG_PRINT(String(mac[i], HEX));
+  }
+  DEBUG_PRINTLN("");
 }
 
 void printEthernetStatus() {
@@ -934,8 +940,7 @@ void setup() {
   DEBUG_PRINTLN("Computing local mac address from stm32 unique ID...");
   while (init_mac_address((uint8_t*)mac) != 0) {
   }
-  DEBUG_PRINT("MAC address is: ");
-  DEBUG_PRINTLN(mac);
+  DEBUG_PRINTLN("Done.");
 
   initTransport();
 
