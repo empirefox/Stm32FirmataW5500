@@ -845,12 +845,6 @@ void systemResetCallback() {
   }
   */
   isResetting = false;
-
-  DEBUG_PRINT("MAC address is: ");
-  for (int i = 0; i < 6; i++) {
-    DEBUG_PRINT(String(mac[i], HEX));
-  }
-  DEBUG_PRINTLN("");
 }
 
 void printEthernetStatus() {
@@ -940,7 +934,14 @@ void setup() {
   DEBUG_PRINTLN("Computing local mac address from stm32 unique ID...");
   while (init_mac_address((uint8_t*)mac) != 0) {
   }
-  DEBUG_PRINTLN("Done.");
+  DEBUG_PRINT("MAC address is: ");
+  for (int i = 0; i < 6; i++) {
+    DEBUG_PRINT(String(mac[i], HEX));
+    if (i != 5)
+      DEBUG_PRINT(":");
+    else
+      DEBUG_PRINTLN("");
+  }
 
   initTransport();
 
